@@ -67,6 +67,25 @@ const chao = {
     }
 }
 
+const telaDeInicio = {
+    spriteX: 134,
+    spriteY: 0,
+    largura: 174, 
+    altura: 152,
+    x: (canvas.width/2) - 174 / 2,
+    y: 50,
+    desenha() {
+        contexto.drawImage(
+            sprites,
+            telaDeInicio.spriteX, telaDeInicio.spriteY, //sprite x, sprite y
+            telaDeInicio.largura, telaDeInicio.altura, // tmanho do recorte na sprite
+            telaDeInicio.x, telaDeInicio.y,
+            telaDeInicio.largura, telaDeInicio.altura, //tamanho do desenho
+        );
+    
+    }
+}
+
 const flappyBird = {
     spriteX: 0,
     spriteY: 0,
@@ -92,15 +111,54 @@ const flappyBird = {
     }
 }
 
+//Manipulação de 
+let telaAtiva = {}
+
+function mudaParaTela(novaTela) {
+    telaAtiva = novaTela
+}
+const Telas = {
+    INICIO: {
+        desenha() {
+            planoDeFundo.desenha();
+            chao.desenha();
+            flappyBird.desenha();
+            telaDeInicio.desenha();
+        }, 
+        click() {
+            mudaParaTela(Telas.JOGO)
+        },
+        atualiza() {
+
+        }
+    }
+}
+
+Telas.JOGO ={
+    desenha() {
+        planoDeFundo.desenha();
+        chao.desenha();
+        flappyBird.desenha();
+    }, 
+    atualiza() {
+        flappyBird.atualiza();
+    }
+}
+
 
 function loop() {
-    flappyBird.atualiza()
     
-    planoDeFundo.desenha();
-    chao.desenha();
-    flappyBird.desenha();
+    telaAtiva.desenha();
+    telaAtiva.atualiza();
     
     requestAnimationFrame(loop);
 }
 
+window.addEventListener('click', function() {
+    if(telaAtiva.click()) {
+        telaAtiva.click();
+    }
+})
+
+mudaParaTela(Telas.INICIO)
 loop();
