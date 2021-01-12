@@ -67,6 +67,62 @@ const chao = {
     }
 }
 
+
+
+function fazColisao(flappyBird, chao) {
+    const flappyBirdY = flappyBird.y + flappyBird.altura
+    const chaoY = chao.y; 
+
+    if(flappyBirdY >= chaoY){
+        return true;
+    }
+
+    return false;
+}
+
+function criaflappyBird () {
+
+    const flappyBird = {
+        spriteX: 0,
+        spriteY: 0,
+        largura: 33, 
+        altura: 24,
+        x: 10,
+        y: 50,
+        pulo: 4.6,
+        pula() {    
+            flappyBird.velocidade = - flappyBird.pulo;  
+        },
+        gravidade: 0.25,
+        velocidade: 0,
+        atualiza () {
+    
+            if(fazColisao(flappyBird, chao)) {
+                console.log("fez colisao")
+
+                mudaParaTela(Telas.INICIO)
+                return;
+            }
+    
+            flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade
+            flappyBird.y = flappyBird.y + flappyBird.velocidade
+        },
+        desenha() {
+            contexto.drawImage(
+                sprites,
+                flappyBird.spriteX, flappyBird.spriteY, //sprite x, sprite y
+                flappyBird.largura, flappyBird.altura, // tmanho do recorte na sprite
+                flappyBird.x, flappyBird.y,
+                flappyBird.largura, flappyBird.altura, //tamanho do desenho
+            );
+        
+        },
+       
+    }
+
+    return flappyBird;
+}
+
 const telaDeInicio = {
     spriteX: 134,
     spriteY: 0,
@@ -86,43 +142,28 @@ const telaDeInicio = {
     }
 }
 
-const flappyBird = {
-    spriteX: 0,
-    spriteY: 0,
-    largura: 33, 
-    altura: 24,
-    x: 10,
-    y: 50,
-    gravidade: 0.25,
-    velocidade: 0,
-    atualiza () {
-        flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade
-        flappyBird.y = flappyBird.y + flappyBird.velocidade
-    },
-    desenha() {
-        contexto.drawImage(
-            sprites,
-            flappyBird.spriteX, flappyBird.spriteY, //sprite x, sprite y
-            flappyBird.largura, flappyBird.altura, // tmanho do recorte na sprite
-            flappyBird.x, flappyBird.y,
-            flappyBird.largura, flappyBird.altura, //tamanho do desenho
-        );
-    
-    }
-}
 
-//Manipulação de 
+
+//Manipulação de telas
+const globais = {}
 let telaAtiva = {}
 
 function mudaParaTela(novaTela) {
     telaAtiva = novaTela
+
+    if(telaAtiva.inicializa) {
+        telaAtiva.inicializa();
+    }
 }
 const Telas = {
     INICIO: {
+        inicializa() {
+            globais.flappyBird = criaflappyBird();
+        },
         desenha() {
             planoDeFundo.desenha();
             chao.desenha();
-            flappyBird.desenha();
+            globais.flappyBird.desenha();
             telaDeInicio.desenha();
         }, 
         click() {
@@ -138,10 +179,13 @@ Telas.JOGO ={
     desenha() {
         planoDeFundo.desenha();
         chao.desenha();
-        flappyBird.desenha();
+        globais.flappyBird.desenha();
     }, 
+    click() {
+        globais.flappyBird.pula();
+    },
     atualiza() {
-        flappyBird.atualiza();
+        globais.flappyBird.atualiza();
     }
 }
 
