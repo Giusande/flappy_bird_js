@@ -1,4 +1,9 @@
-console.log("Flappy JS")
+console.log("FlappyBird JS")
+console.log("Author: iamageo")
+console.log("Credits: Dev Soltinho")
+
+const som_Hit = new Audio();
+som_Hit.src = './efeitos/hit.wav';
 
 const sprites = new Image();
 sprites.src = './sprites.png';
@@ -96,7 +101,8 @@ function criaflappyBird () {
         atualiza () {
     
             if(fazColisao(flappyBird, chao)) {
-                console.log("fez colisao")
+                console.log("Fez colisao")
+                som_Hit.play();
 
                 mudaParaTela(Telas.INICIO)
                 return;
