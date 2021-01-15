@@ -163,6 +163,61 @@ function criaflappyBird () {
     return flappyBird;
 }
 
+function criaCanos() {
+    const canos = {
+        largura: 52, 
+        altura: 400,
+        chao: {
+            spriteX: 0,
+            spriteY: 169,
+        },
+        ceu: {
+            spriteX: 52,
+            spriteY: 169,
+        },
+        espaco: 80,
+        desenha() {   
+            const yrandom = -150;  //variável randomica pra subir e descer canos
+            const escacamentoEntreCanos = 120; //espaço entre cada cano
+
+            const canoCeuX = 220;
+            const canoCeuY = 0 + yrandom;
+            
+            //cano do ceu
+            contexto.drawImage(
+                sprites,
+                canos.ceu.spriteX, canos.ceu.spriteY, //sprite x, sprite y
+                canos.largura, canos.altura, // tmanho do recorte na sprite
+                canoCeuX, canoCeuY,
+                canos.largura, canos.altura, //tamanho do desenho
+            );
+
+            //cano do chão
+            const canoChaoX = 220;
+            const canoChaoY = canos.altura + escacamentoEntreCanos + yrandom;
+            contexto.drawImage(
+                sprites,
+                canos.chao.spriteX, canos.chao.spriteY, //sprite x, sprite y
+                canos.largura, canos.altura, // tmanho do recorte na sprite
+                canoChaoX, canoChaoY,
+                canos.largura, canos.altura, //tamanho do desenho
+            );
+        },
+        pares: [],
+        atualiza() {
+            const passou100Frames = frames % 100 === 0;
+
+            if(passou100Frames) {
+                console.log("passou 100 frames")
+            }
+
+        }
+
+    }
+
+    return canos;
+}
+
 const telaDeInicio = {
     spriteX: 134,
     spriteY: 0,
@@ -195,23 +250,28 @@ function mudaParaTela(novaTela) {
         telaAtiva.inicializa();
     }
 }
+
 const Telas = {
     INICIO: {
         inicializa() {
             globais.flappyBird = criaflappyBird();
             globais.chao = criaChao();
+            globais.canos = criaCanos();
+
         },
         desenha() {
             planoDeFundo.desenha();
             globais.chao.desenha();
             globais.flappyBird.desenha();
-            telaDeInicio.desenha();
+            globais.canos.desenha();
+            //telaDeInicio.desenha();
         }, 
         click() {
             mudaParaTela(Telas.JOGO)
         },
         atualiza() {
             globais.chao.atualiza();
+            globais.canos.atualiza();
 
         }
     }
