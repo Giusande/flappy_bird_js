@@ -177,39 +177,59 @@ function criaCanos() {
         },
         espaco: 80,
         desenha() {   
-            const yrandom = -150;  //variável randomica pra subir e descer canos
-            const escacamentoEntreCanos = 120; //espaço entre cada cano
-
-            const canoCeuX = 220;
-            const canoCeuY = 0 + yrandom;
             
-            //cano do ceu
-            contexto.drawImage(
-                sprites,
-                canos.ceu.spriteX, canos.ceu.spriteY, //sprite x, sprite y
-                canos.largura, canos.altura, // tmanho do recorte na sprite
-                canoCeuX, canoCeuY,
-                canos.largura, canos.altura, //tamanho do desenho
-            );
+            canos.pares.forEach(function(par) {
 
-            //cano do chão
-            const canoChaoX = 220;
-            const canoChaoY = canos.altura + escacamentoEntreCanos + yrandom;
-            contexto.drawImage(
-                sprites,
-                canos.chao.spriteX, canos.chao.spriteY, //sprite x, sprite y
-                canos.largura, canos.altura, // tmanho do recorte na sprite
-                canoChaoX, canoChaoY,
-                canos.largura, canos.altura, //tamanho do desenho
-            );
+                const yrandom = par.y;  //variável randomica pra subir e descer canos
+                const escacamentoEntreCanos = 90; //espaço entre cada cano
+    
+                const canoCeuX = par.x;
+                const canoCeuY = 0 + yrandom;
+                
+                //cano do ceu
+                contexto.drawImage(
+                    sprites,
+                    canos.ceu.spriteX, canos.ceu.spriteY, //sprite x, sprite y
+                    canos.largura, canos.altura, // tmanho do recorte na sprite
+                    canoCeuX, canoCeuY,
+                    canos.largura, canos.altura, //tamanho do desenho
+                );
+    
+                //cano do chão
+                const canoChaoX = par.x;
+                const canoChaoY = canos.altura + escacamentoEntreCanos + yrandom;
+                contexto.drawImage(
+                    sprites,
+                    canos.chao.spriteX, canos.chao.spriteY, //sprite x, sprite y
+                    canos.largura, canos.altura, // tmanho do recorte na sprite
+                    canoChaoX, canoChaoY,
+                    canos.largura, canos.altura, //tamanho do desenho
+                );
+            })
+
         },
-        pares: [],
+        pares: [
+            
+         ],
         atualiza() {
             const passou100Frames = frames % 100 === 0;
 
             if(passou100Frames) {
                 console.log("passou 100 frames")
+                canos.pares.push({
+                    x: canvas.width,
+                    y: -150 * (Math.random() + 1),
+                })
             }
+
+            canos.pares.forEach(function(par) {
+                par.x = par.x - 2;
+
+                if(par.x + canos.largura <= 0) {
+                    canos.pares.shift();
+                }
+
+            });
 
         }
 
@@ -261,9 +281,9 @@ const Telas = {
         },
         desenha() {
             planoDeFundo.desenha();
-            globais.chao.desenha();
             globais.flappyBird.desenha();
             globais.canos.desenha();
+            globais.chao.desenha();
             //telaDeInicio.desenha();
         }, 
         click() {
