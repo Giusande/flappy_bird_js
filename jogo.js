@@ -208,6 +208,24 @@ function criaCanos() {
             })
 
         },
+        temColisaoComFlappyBird(par) {
+            const cabecaDoFlappy = globais.flappyBird.y;
+            const peDoFlappy = globais
+    
+            if(globais.flappyBird.x >= par.x) {
+                console.log("o passaro invadiu a área dos canos")
+            }
+
+            if (cabecaDoFlappy >= par.canoCeuY.y) {
+                return true;
+            }
+
+            if (peDoFlappy >= par.canoChaoY.y) {
+                return true;
+            }
+
+            return false;
+        },
         pares: [
             
          ],
@@ -218,12 +236,17 @@ function criaCanos() {
                 console.log("passou 100 frames")
                 canos.pares.push({
                     x: canvas.width,
-                    y: -150 * (Math.random() + 1),
+                    y: -250
+                    //y: -150 * (Math.random() + 1),
                 })
             }
 
             canos.pares.forEach(function(par) {
                 par.x = par.x - 2;
+
+                if (canos.temColisaoComFlappyBird(par)) {
+                    console.log("você perdeu!")
+                }
 
                 if(par.x + canos.largura <= 0) {
                     canos.pares.shift();
