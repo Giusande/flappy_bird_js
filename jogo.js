@@ -114,6 +114,7 @@ function criaflappyBird () {
     
             if(fazColisao(flappyBird, globais.chao)) {
                 //console.log("Fez colisao")
+                som_Hit.play()
                 mudaParaTela(Telas.GAME_OVER)
                 return;
             }
