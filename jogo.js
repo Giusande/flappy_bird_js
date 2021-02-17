@@ -113,10 +113,8 @@ function criaflappyBird () {
         atualiza () {
     
             if(fazColisao(flappyBird, globais.chao)) {
-                console.log("Fez colisao")
-                som_Hit.play();
-
-                mudaParaTela(Telas.INICIO)
+                //console.log("Fez colisao")
+                mudaParaTela(Telas.GAME_OVER)
                 return;
             }
     
@@ -220,7 +218,7 @@ function criaCanos() {
             const cabecaDoFlappy = globais.flappyBird.y;
             const peDoFlappy = globais.flappyBird.y + globais.flappyBird.altura;
     
-            if(globais.flappyBird.x >= par.x) {
+            if((globais.flappyBird.x + globais.flappyBird.largura - 3) >= par.x) {
                 //console.log("o passaro invadiu a área dos canos")
                 
                 if (cabecaDoFlappy <= par.canoCeu.y) {
@@ -241,7 +239,7 @@ function criaCanos() {
             const passou100Frames = frames % 100 === 0;
 
             if(passou100Frames) {
-                console.log("passou 100 frames")
+                //console.log("passou 100 frames")
                 canos.pares.push({
                     x: canvas.width,
                     y: -150 * (Math.random() + 1),
@@ -252,9 +250,9 @@ function criaCanos() {
                 par.x = par.x - 2;
 
                 if (canos.temColisaoComFlappyBird(par)) {
-                    console.log("você perdeu!")
+                    //console.log("você perdeu!")
                     som_Hit.play();
-                    mudaParaTela(Telas.INICIO);
+                    mudaParaTela(Telas.GAME_OVER);
                 }
 
                 if(par.x + canos.largura <= 0) {
@@ -313,6 +311,26 @@ const telaDeInicio = {
     }
 }
 
+const telaDeGameOver = {
+    spriteX: 134,
+    spriteY: 153,
+    largura: 226, 
+    altura: 200,
+    x: (canvas.width/2) - 226 / 2,
+    y: 50,
+    desenha() {
+        contexto.drawImage(
+            sprites,
+            telaDeGameOver.spriteX, telaDeGameOver.spriteY, //sprite x, sprite y
+            telaDeGameOver.largura, telaDeGameOver.altura, // tmanho do recorte na sprite
+            telaDeGameOver.x, telaDeGameOver.y,
+            telaDeGameOver.largura, telaDeGameOver.altura, //tamanho do desenho
+        );
+    
+    }
+}
+
+
 
 
 //Manipulação de telas
@@ -350,6 +368,19 @@ const Telas = {
         }
     }
 }
+
+Telas.GAME_OVER = {
+    desenha() {
+        telaDeGameOver.desenha()
+    }, 
+    atualiza() {
+
+    },
+    click() {
+        mudaParaTela(Telas.INICIO)
+    }
+}
+
 
 Telas.JOGO ={
     inicializa() {
@@ -389,5 +420,5 @@ window.addEventListener('click', function() {
     }
 })
 
-mudaParaTela(Telas.GAME_OVER)
+mudaParaTela(Telas.INICIO)
 loop();
