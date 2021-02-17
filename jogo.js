@@ -270,6 +270,30 @@ function criaCanos() {
     return canos;
 }
 
+function criaPlacar() {    
+    const placar = {
+        pontuacao: 0,
+        desenha() {
+            contexto.font = '30px "Press Start 2P"';
+            contexto.fillStyle = 'white';
+            contexto.textAlign = 'right';
+            contexto.fillText(`${placar.pontuacao}`, canvas.width - 10, 40)
+            placar.pontuacao
+            
+        },
+        atualiza(){
+            const intervaloDeFrames = 100;
+            const passouDoIntervalo = frames % intervaloDeFrames === 0;
+
+            if(passouDoIntervalo) {
+                placar.pontuacao += 1
+            }
+
+        }
+    }
+    return placar;
+}
+
 const telaDeInicio = {
     spriteX: 134,
     spriteY: 0,
@@ -328,11 +352,15 @@ const Telas = {
 }
 
 Telas.JOGO ={
+    inicializa() {
+        globais.placar = criaPlacar();
+    },
     desenha() {
         planoDeFundo.desenha();
         globais.canos.desenha();
         globais.chao.desenha();
         globais.flappyBird.desenha();
+        globais.placar.desenha()
     }, 
     click() {
         globais.flappyBird.pula();
@@ -341,6 +369,7 @@ Telas.JOGO ={
         globais.canos.atualiza();
         globais.chao.atualiza();
         globais.flappyBird.atualiza();
+        globais.placar.atualiza();
     }
 }
 
@@ -360,5 +389,5 @@ window.addEventListener('click', function() {
     }
 })
 
-mudaParaTela(Telas.INICIO)
+mudaParaTela(Telas.GAME_OVER)
 loop();
