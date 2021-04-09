@@ -1,1 +1,1 @@
-# flappy-bird-js
+# Clone for flapbird application
