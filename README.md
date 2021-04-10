@@ -1,10 +1,25 @@
+
 # Clone for flapbird application 🐤
 
-Developed following @mariosouto videos on youtube:
-https://www.youtube.com/watch?v=jOAU81jdi-c&list=PLTcmLKdIkOWmeNferJ292VYKBXydGeDej&ab_channel=DevSoutinho
+Developed following @mariosouto videos on youtube
 
-# How to use 🚀
-Just run on a local server
+![](bird.gif)
+
+## Usage example
+
+Open index.html in browser and seja feliz!
+
 
 # Contributos 
-Mario Souto, @omariosouto on Github
+<a href = "https://github.com/iamageo/flappy-bird-js/contributors">
+  <img src = "https://contrib.rocks/image?repo=iamageo/flappy-bird-js"/>
+</a>
+
+
+## Contributing
+
+1. Fork it (<https://github.com/iamageo/flappy-bird-js/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
