@@ -1,5 +1,5 @@
 
-# Clone for flapbird application 🐤
+# Flappy bird js 🐤
 
 Developed following @mariosouto videos on youtube
 
