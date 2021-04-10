@@ -5,9 +5,11 @@ Developed following @mariosouto videos on youtube
 
 ![](bird.gif)
 
-## Usage example
+⭐ this gif is illustrative ⭐
 
-Open index.html in browser and seja feliz!
+## How to use
+
+Open index.html in browser and be happy!
 
 
 # Contributos 
